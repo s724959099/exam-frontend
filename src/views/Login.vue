@@ -29,6 +29,9 @@
         </a-button>
       </a-form-item>
     </a-form>
+    <!--    todo-->
+    <!--    <a-button @click="callLogin">login</a-button>-->
+    <!--    <a-button @click="callProtected">protect</a-button>-->
   </div>
 </template>
 
@@ -53,11 +56,26 @@ export default {
       return this.validateField('password');
     },
     handleSubmit(e) {
+      console.log('run submit');
       e.preventDefault();
       this.form.validateFields((err, values) => {
+        console.log(err, values);
         if (!err) {
           console.log('Received values of form: ', values);
         }
+      });
+    },
+    callProtected() {
+      this.$axios.get('/protected/').then((res) => {
+        console.log('protected:', res);
+      });
+    },
+    callLogin() {
+      this.$axios.post('/login/', {
+        username: 'test',
+        password: 'test',
+      }).then((res) => {
+        console.log(res);
       });
     },
   },

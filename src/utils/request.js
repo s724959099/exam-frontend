@@ -11,7 +11,8 @@ service.all = axios.all;
 
 const err = (error) => {
   if (error.response.status === 401) {
-    window.location.href = '/login';
+    console.log('demo');
+    // window.location.href = '/login';
   }
   return Promise.reject(error);
 };
