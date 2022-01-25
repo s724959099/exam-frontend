@@ -62,7 +62,6 @@ export default {
     },
   },
   mounted() {
-    window.a = this.form;
     this.$nextTick(() => {
       // To disabled submit button at the beginning.
       this.form.validateFields();
