@@ -24,6 +24,11 @@ const routes = [
     name: 'Dashboard',
     component: () => import(/* webpackChunkName: "about" */ '../views/Dashboard.vue'),
   },
+  {
+    path: '/user/verify/:verifyId',
+    name: 'VerifyId',
+    component: () => import(/* webpackChunkName: "about" */ '../views/user/VerifyId.vue'),
+  },
 ];
 
 const router = new VueRouter({

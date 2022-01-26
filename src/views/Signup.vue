@@ -131,13 +131,28 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          this.$axios.post('/user/signup/', {
+            email: values.email,
+            password: values.password,
+            name: values.userName,
+          }).then((res) => {
+            console.log(res.data);
+          }).catch((err_) => {
+            const msgs = [];
+            // eslint-disable-next-line no-restricted-syntax
+            for (const el of err_.response.data.detail.errors) {
+              msgs.push(el.msg);
+            }
+            this.$notification.open({
+              message: 'Sign Up Error',
+              description: msgs.join('\n'),
+            });
+          });
         }
       });
     },
   },
   mounted() {
-    window.a = this.form;
     this.$nextTick(() => {
       // To disabled submit button at the beginning.
       this.form.validateFields();
