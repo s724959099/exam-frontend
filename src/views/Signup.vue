@@ -54,7 +54,8 @@
       </a-form-item>
 
       <a-form-item>
-        <a-button type="primary" html-type="submit" :disabled="hasErrors(form.getFieldsError())">
+        <a-button type="primary" html-type="submit"
+        >
           Sign up
         </a-button>
       </a-form-item>

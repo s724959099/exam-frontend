@@ -3,7 +3,6 @@
     <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
             @submit="handleSubmit">
       <a-form-item label="Email"
-                   :validate-status="emailError() ? 'error' : ''" :help="emailError() || ''"
       >
         <a-input
           v-decorator="
@@ -13,7 +12,6 @@
         />
       </a-form-item>
       <a-form-item label="Password"
-                   :validate-status="passwordError() ? 'error' : ''" :help="passwordError() || ''"
       >
         <a-input
           v-decorator="
@@ -31,7 +29,7 @@
     </a-form>
     <!--    todo-->
     <!--    <a-button @click="callLogin">login</a-button>-->
-    <!--    <a-button @click="callProtected">protect</a-button>-->
+    <a-button @click="callProtected">protect</a-button>
   </div>
 </template>
 
@@ -56,34 +54,26 @@ export default {
       return this.validateField('password');
     },
     handleSubmit(e) {
-      console.log('run submit');
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        console.log(err, values);
         if (!err) {
-          console.log('Received values of form: ', values);
+          this.$axios.post('/auth/login/', values).then((res) => {
+            this.$ls.set('access_token', res.data.access_token);
+            this.$ls.set('refresh_token', res.data.refresh_token);
+          }).catch((err_) => {
+            this.$notification.open({
+              message: 'Login Error',
+              description: err_.response.data.detail,
+            });
+          });
         }
       });
     },
     callProtected() {
-      this.$axios.get('/protected/').then((res) => {
+      this.$axios.get('/auth/demo/').then((res) => {
         console.log('protected:', res);
       });
     },
-    callLogin() {
-      this.$axios.post('/login/', {
-        username: 'test',
-        password: 'test',
-      }).then((res) => {
-        console.log(res);
-      });
-    },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      // To disabled submit button at the beginning.
-      this.form.validateFields();
-    });
   },
 };
 </script>

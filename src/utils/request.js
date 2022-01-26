@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import axios from 'axios';
 
 // 创建 axios 实例
@@ -18,7 +19,14 @@ const err = (error) => {
 };
 
 // request interceptor
-service.interceptors.request.use((config) => config, err);
+service.interceptors.request.use((config) => {
+  const accessToken = Vue.ls.get('access_token');
+  if (accessToken) {
+    // eslint-disable-next-line no-param-reassign
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+}, err);
 
 // response interceptor
 service.interceptors.response.use((response) => response, err);
@@ -26,11 +34,11 @@ service.baseURL = baseURL;
 
 const installer = {
   vm: {},
-  install(Vue) {
+  install(vue) {
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$axios = service;
+    vue.prototype.$axios = service;
     // eslint-disable-next-line no-param-reassign
-    Vue.prototype.$baseURL = baseURL;
+    vue.prototype.$baseURL = baseURL;
   },
 };
 
