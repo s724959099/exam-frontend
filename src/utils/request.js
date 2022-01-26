@@ -12,6 +12,9 @@ service.all = axios.all;
 const refreshToken = () => service.post('/auth/refresh/').then((res) => {
   Vue.ls.set('access_token', res.data.access_token);
   Vue.ls.set('refresh_token', res.data.refresh_token);
+}).catch(() => {
+  Vue.ls.remove('access_token');
+  Vue.ls.remove('refresh_token');
 });
 
 const err = (error) => {
@@ -19,7 +22,7 @@ const err = (error) => {
   if (error.response.status === 422 && error.response.config.url !== '/auth/refresh/') {
     return refreshToken().then(() => Promise.resolve(service(error.response.config)));
   }
-  if (error.response.status === 401) {
+  if (error.response.status === 401 && error.response.config.url !== '/auth/login/') {
     window.location.href = '/login';
   }
   if (error.response.status === 422 && error.response.config.url === '/auth/refresh/') {
