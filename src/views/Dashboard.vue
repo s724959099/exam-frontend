@@ -19,7 +19,7 @@ export default {
     };
   },
   mounted() {
-    this.$axios.get('/user/profile').then((res) => {
+    this.$axios.get('/user/profile/').then((res) => {
       this.user = res.data;
     });
   },

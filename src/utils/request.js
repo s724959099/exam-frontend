@@ -19,7 +19,7 @@ const refreshToken = () => service.post('/auth/refresh/').then((res) => {
 
 const err = (error) => {
   // need to refresh
-  if (error.response.status === 422 && error.response.config.url !== '/auth/refresh/') {
+  if (error.response.status === 422 && error.response.config.url !== '/auth/refresh/' && error.response.data.detail === 'Signature has expired') {
     return refreshToken().then(() => Promise.resolve(service(error.response.config)));
   }
   if (error.response.status === 401 && error.response.config.url !== '/auth/login/') {
