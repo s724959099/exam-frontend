@@ -9,18 +9,29 @@ const service = axios.create({
   timeout: 60000, // 请求超时时间
 });
 service.all = axios.all;
+const refreshToken = () => service.post('/auth/refresh/').then((res) => {
+  Vue.ls.set('access_token', res.data.access_token);
+  Vue.ls.set('refresh_token', res.data.refresh_token);
+});
 
 const err = (error) => {
+  // need to refresh
+  if (error.response.status === 422 && error.response.config.url !== '/auth/refresh/') {
+    return refreshToken().then(() => Promise.resolve(service(error.response.config)));
+  }
   if (error.response.status === 401) {
-    console.log('demo');
-    // window.location.href = '/login';
+    window.location.href = '/login';
+  }
+  if (error.response.status === 422 && error.response.config.url === '/auth/refresh/') {
+    window.location.href = '/login';
   }
   return Promise.reject(error);
 };
 
 // request interceptor
 service.interceptors.request.use((config) => {
-  const accessToken = Vue.ls.get('access_token');
+  const accessToken = config.url === '/auth/refresh/' ? Vue.ls.get('refresh_token') : Vue.ls.get('access_token');
+
   if (accessToken) {
     // eslint-disable-next-line no-param-reassign
     config.headers.Authorization = `Bearer ${accessToken}`;

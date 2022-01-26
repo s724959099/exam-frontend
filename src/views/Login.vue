@@ -27,9 +27,6 @@
         </a-button>
       </a-form-item>
     </a-form>
-    <!--    todo-->
-    <!--    <a-button @click="callLogin">login</a-button>-->
-    <a-button @click="callProtected">protect</a-button>
   </div>
 </template>
 
@@ -67,11 +64,6 @@ export default {
             });
           });
         }
-      });
-    },
-    callProtected() {
-      this.$axios.get('/auth/demo/').then((res) => {
-        console.log('protected:', res);
       });
     },
   },
