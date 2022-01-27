@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 0 50px">
+  <div style="padding: 0 50px" v-if="!loading">
     <a-button @click="logout">Logout</a-button>
     <div>
       Name: {{ user.name }}
@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       user: {},
+      loading: true,
     };
   },
   methods: {
@@ -29,6 +30,7 @@ export default {
   mounted() {
     this.$axios.get('/user/profile/').then((res) => {
       this.user = res.data;
+      this.loading = false;
     });
   },
 };

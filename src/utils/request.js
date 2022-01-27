@@ -27,10 +27,7 @@ const err = (error) => {
 };
 
 // request interceptor
-service.interceptors.request.use((config) => {
-  console.log(config);
-  return config;
-}, err);
+service.interceptors.request.use((config) => config, err);
 
 // response interceptor
 service.interceptors.response.use((response) => response, err);
