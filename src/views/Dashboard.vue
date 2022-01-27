@@ -7,6 +7,12 @@
     <div>
       Email: {{ user.email }}
     </div>
+    <div>
+      Signup time: {{ user.created_at }}
+    </div>
+    <div>
+      Last login: {{ user.last_login_time }}
+    </div>
   </div>
 </template>
 
