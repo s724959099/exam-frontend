@@ -1,6 +1,5 @@
 <template>
   <div style="padding: 0 50px">
-    VerifyId
   </div>
 </template>
 
