@@ -21,9 +21,9 @@ export default {
   },
   methods: {
     logout() {
-      this.$ls.remove('access_token');
-      this.$ls.remove('refresh_token');
-      window.location.href = '/';
+      this.$axios.delete('/auth/logout/').then(() => {
+        window.location.href = '/';
+      });
     },
   },
   mounted() {

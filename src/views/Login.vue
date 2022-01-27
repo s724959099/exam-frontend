@@ -54,9 +54,7 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.$axios.post('/auth/login/', values).then((res) => {
-            this.$ls.set('access_token', res.data.access_token);
-            this.$ls.set('refresh_token', res.data.refresh_token);
+          this.$axios.post('/auth/login/', values).then(() => {
             this.$router.push('/dashboard');
           }).catch((err_) => {
             this.$notification.open({

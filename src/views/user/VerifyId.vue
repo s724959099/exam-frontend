@@ -9,9 +9,7 @@ export default {
   name: 'VerifyId',
   mounted() {
     const { verifyId } = this.$route.params;
-    this.$axios.get(`/user/verify/${verifyId}/`).then((res) => {
-      this.$ls.set('access_token', res.data.access_token);
-      this.$ls.set('refresh_token', res.data.refresh_token);
+    this.$axios.get(`/user/verify/${verifyId}/`).then(() => {
       this.$notification.open({
         message: 'Verify Success',
         description: 'Verify success.We weill redirect you.',

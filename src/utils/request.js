@@ -1,31 +1,26 @@
-import Vue from 'vue';
 import axios from 'axios';
 
-// 创建 axios 实例
 const baseURL = process.env.VUE_APP_API_URL;
+axios.defaults.withCredentials = true;
+axios.defaults.xsrfCookieName = 'csrf_access_token';
+axios.defaults.xsrfHeaderName = 'X-CSRF-Token';
 const service = axios.create({
-  // todo http -> https
   baseURL,
-  timeout: 60000, // 请求超时时间
+  timeout: 60000,
+  withCredentials: true,
 });
 service.all = axios.all;
-const refreshToken = () => service.post('/auth/refresh/').then((res) => {
-  Vue.ls.set('access_token', res.data.access_token);
-  Vue.ls.set('refresh_token', res.data.refresh_token);
-}).catch(() => {
-  Vue.ls.remove('access_token');
-  Vue.ls.remove('refresh_token');
-});
+const refreshToken = () => service.post('/auth/refresh/').catch(() => service.delete('/auth/logout/'));
 
 const err = (error) => {
   // need to refresh
-  if (error.response.status === 422 && error.response.config.url !== '/auth/refresh/' && error.response.data.detail === 'Signature has expired') {
+  if (error.response.status === 402 && error.response.config.url !== '/auth/refresh/') {
     return refreshToken().then(() => Promise.resolve(service(error.response.config)));
   }
   if (error.response.status === 401 && error.response.config.url !== '/auth/login/') {
     window.location.href = '/login';
   }
-  if (error.response.status === 422 && error.response.config.url === '/auth/refresh/') {
+  if (error.response.status === 402 && error.response.config.url === '/auth/refresh/') {
     window.location.href = '/login';
   }
   return Promise.reject(error);
@@ -33,12 +28,7 @@ const err = (error) => {
 
 // request interceptor
 service.interceptors.request.use((config) => {
-  const accessToken = config.url === '/auth/refresh/' ? Vue.ls.get('refresh_token') : Vue.ls.get('access_token');
-
-  if (accessToken) {
-    // eslint-disable-next-line no-param-reassign
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+  console.log(config);
   return config;
 }, err);
 
