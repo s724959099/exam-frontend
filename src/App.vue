@@ -22,9 +22,6 @@ export default {
 };
 </script>
 <style scoped>
-#app {
-  height: 100%;
-}
 
 .a-header {
   color: white;

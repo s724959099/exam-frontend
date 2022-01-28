@@ -14,17 +14,6 @@
       Last login: {{ user.last_login_time }}
     </div>
     <a-divider/>
-    <h2>Statistics</h2>
-    <div>
-      Sign up count: {{statistics.sign_up_count}}
-    </div>
-    <div>
-      Tody active count: {{statistics.today_active_count}}
-    </div>
-    <div>
-      Last 7 days average: {{statistics.last_7days_active_avg}}
-    </div>
-    <a-divider/>
     <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
             @submit="handleSubmit">
       <a-form-item label="Old Password"
@@ -77,22 +66,109 @@
         </a-button>
       </a-form-item>
     </a-form>
+    <a-divider/>
+    <h2>Statistics</h2>
+    <div>
+      Sign up count: {{ statistics.sign_up_count }}
+    </div>
+    <div>
+      Tody active count: {{ statistics.today_active_count }}
+    </div>
+    <div>
+      Last 7 days average: {{ statistics.last_7days_active_avg }}
+    </div>
+    <a-divider/>
+    <a-table :columns="columns" :dataSource="items"
+             :loading="loading"
+             :pagination="pagination"
+             @change="handleChangePage"
+             :rowKey="record => record.id"
+    >
+      <div slot="register_from" slot-scope="text">
+        {{ text === 1 ? 'web' : text === 2 ? 'google' : text === 3 ? 'facebook' : 'unknow' }}
+      </div>
+      <div slot="verify" slot-scope="text">
+        <a-badge :status="text?'success':'error'"/>
+      </div>
+    </a-table>
   </div>
 </template>
 
 <script>
-
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+  },
+  {
+    title: 'From',
+    dataIndex: 'register_from',
+    scopedSlots: { customRender: 'register_from' },
+  },
+  {
+    title: 'Verify',
+    dataIndex: 'verify',
+    scopedSlots: { customRender: 'verify' },
+  },
+  {
+    title: 'Login count',
+    dataIndex: 'login_count',
+  },
+  {
+    title: 'Last login time',
+    dataIndex: 'last_login_time',
+  },
+  {
+    title: 'Sign up time',
+    dataIndex: 'created_at',
+  },
+];
 export default {
   name: 'Dashboard',
   data() {
     return {
+      columns,
+      items: [],
+      params: {
+        limit: 3,
+        offset: 0,
+      },
       user: {},
       statistics: {},
       loading: true,
       form: this.$form.createForm(this, { name: 'resetPassword' }),
     };
   },
+  computed: {
+    pagination() {
+      return {
+        current: (this.params.offset / this.params.limit) + 1,
+        pageSize: this.params.limit,
+        total: this.raw_data ? this.raw_data.count : 0,
+      };
+    },
+  },
   methods: {
+    handleChangePage(pagination) {
+      this.params.offset = (pagination.current - 1) * this.params.limit;
+      this.initData();
+    },
+    // todo
+    getParams() {
+      return this.params;
+    },
+    initData() {
+      this.loading = true;
+      // store action get data
+      this.$axios.get('/user/', this.getParams()).then((res) => {
+        this.loading = false;
+        this.items = res.data.data;
+      });
+    },
     logout() {
       this.$axios.delete('/auth/logout/').then(() => {
         window.location.href = '/';
@@ -163,6 +239,7 @@ export default {
       this.statistics = res.data;
       this.loading = false;
     });
+    this.initData();
   },
 };
 </script>
