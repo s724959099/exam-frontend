@@ -14,6 +14,17 @@
       Last login: {{ user.last_login_time }}
     </div>
     <a-divider/>
+    <h2>Statistics</h2>
+    <div>
+      Sign up count: {{statistics.sign_up_count}}
+    </div>
+    <div>
+      Tody active count: {{statistics.today_active_count}}
+    </div>
+    <div>
+      Last 7 days average: {{statistics.last_7days_active_avg}}
+    </div>
+    <a-divider/>
     <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
             @submit="handleSubmit">
       <a-form-item label="Old Password"
@@ -76,6 +87,7 @@ export default {
   data() {
     return {
       user: {},
+      statistics: {},
       loading: true,
       form: this.$form.createForm(this, { name: 'resetPassword' }),
     };
@@ -145,6 +157,10 @@ export default {
   mounted() {
     this.$axios.get('/user/profile/').then((res) => {
       this.user = res.data;
+      this.loading = false;
+    });
+    this.$axios.get('/user/statistics/').then((res) => {
+      this.statistics = res.data;
       this.loading = false;
     });
   },
