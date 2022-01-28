@@ -157,7 +157,6 @@ export default {
       this.params.offset = (pagination.current - 1) * this.params.limit;
       this.initData();
     },
-    // todo
     getParams() {
       return this.params;
     },
