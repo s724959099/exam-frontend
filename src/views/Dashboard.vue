@@ -85,7 +85,7 @@
              :rowKey="record => record.id"
     >
       <div slot="register_from" slot-scope="text">
-        {{ text === 1 ? 'web' : text === 2 ? 'google' : text === 3 ? 'facebook' : 'unknow' }}
+        {{ text === 1 ? 'web' : text === 2 ? 'facebook' : text === 3 ? 'google' : 'unknow' }}
       </div>
       <div slot="verify" slot-scope="text">
         <a-badge :status="text?'success':'error'"/>
