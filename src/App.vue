@@ -22,6 +22,11 @@ export default {
     };
   },
   computed: {},
+  mounted() {
+    this.$axios.get('/version/').then(() => {
+      console.log('success');
+    });
+  },
 };
 </script>
 <style scoped>
