@@ -20,6 +20,7 @@ jobs:
           VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
           TAG=${{ github.event.inputs.tag }}
           EOF
+          cat .env
 
       - name: Prepare
         id: prep
