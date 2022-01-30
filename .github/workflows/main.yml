@@ -23,6 +23,7 @@ jobs:
           cat << EOF > .env
           VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
           VUE_APP_TAG=${{ github.event.inputs.tag }}
+          VUE_APP_DEMO=123123123
           EOF
           cat .env
           echo "env done"

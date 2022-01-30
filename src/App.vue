@@ -24,7 +24,8 @@ export default {
   computed: {},
   mounted() {
     console.log('VUE_APP_API_URL', process.env.VUE_APP_API_URL);
-    console.log('TAG', process.env.VUE_APP_TAG);
+    console.log('VUE_APP_TAG', process.env.VUE_APP_TAG);
+    console.log('VUE_APP_DEMO', process.env.VUE_APP_DEMO);
   },
 };
 </script>
