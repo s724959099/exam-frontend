@@ -18,13 +18,13 @@
 export default {
   data() {
     return {
-      version: process.env.TAG,
+      version: process.env.VUE_APP_TAG,
     };
   },
   computed: {},
   mounted() {
     console.log('VUE_APP_API_URL', process.env.VUE_APP_API_URL);
-    console.log('TAG', process.env.TAG);
+    console.log('TAG', process.env.VUE_APP_TAG);
   },
 };
 </script>
