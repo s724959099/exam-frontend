@@ -18,6 +18,7 @@ jobs:
         run: |
           cat << EOF > .env
           VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
+          TAG=${{ github.event.inputs.tag }}
           EOF
 
       - name: Prepare
