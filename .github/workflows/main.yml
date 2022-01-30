@@ -24,6 +24,12 @@ jobs:
           VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
           VUE_APP_TAG=${{ github.event.inputs.tag }}
           EOF
+          cat .env
+          echo "env done"
+          pwd
+          echo "pwd done"
+          ls -la
+          echo "ls done"
 
 
       - name: Prepare
