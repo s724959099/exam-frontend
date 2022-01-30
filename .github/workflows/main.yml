@@ -18,14 +18,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
-      - name: Create env file
-        run: |
-          cat << EOF > .env
-          VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
-          VUE_APP_TAG=${{ github.event.inputs.tag }}
-          VUE_APP_DEMO=${{ github.event.inputs.tag }}
-          EOF
-
       - name: Prepare
         id: prep
         run: |
@@ -39,6 +31,13 @@ jobs:
           fi
 
           echo ::set-output name=version::${VERSION}
+
+      - name: Create env file
+        run: |
+          cat << EOF > .env
+          VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
+          VUE_APP_TAG=${{ steps.prep.outputs.version }}
+          EOF
 
       - uses: whoan/docker-build-with-cache-action@v5
         name: Build & push Docker image
