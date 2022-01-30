@@ -18,6 +18,13 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
+      - name: Create env file
+        run: |
+          cat << EOF > .env
+          VUE_APP_API_URL=${{ secrets.VUE_APP_API_URL }}
+          EOF
+
+
       - name: Prepare
         id: prep
         run: |
