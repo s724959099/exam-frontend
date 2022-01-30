@@ -22,6 +22,10 @@ export default {
     };
   },
   computed: {},
+  mounted() {
+    console.log('VUE_APP_API_URL', process.env.VUE_APP_API_URL);
+    console.log('TAG', process.env.TAG);
+  },
 };
 </script>
 <style scoped>
