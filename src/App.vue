@@ -1,6 +1,7 @@
 <template>
   <a-layout id="app">
     <a-layout-header class="a-header">
+      <span>version: {{ version }}</span>
       <a href="/login">Login</a>
       <a href="/signup" style="margin-left: 50px">Sign Up</a>
     </a-layout-header>
@@ -16,7 +17,9 @@
 
 export default {
   data() {
-    return {};
+    return {
+      version: process.env.TAG,
+    };
   },
   computed: {},
 };
