@@ -14,6 +14,25 @@
       Last login: {{ user.last_login_time }}
     </div>
     <a-divider/>
+    <a-form :form="formUpdateUser" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
+            @submit="submitUpdateName">
+      <a-form-item label="Name"
+      >
+        <a-input
+          v-decorator="
+          ['name', { rules: [
+            { required: true, message: 'Please update name' },
+            ] }]"
+        />
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" html-type="submit"
+        >
+          Update
+        </a-button>
+      </a-form-item>
+    </a-form>
+    <a-divider/>
     <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
             @submit="handleSubmit">
       <a-form-item label="Old Password"
@@ -141,6 +160,7 @@ export default {
       statistics: {},
       loading: true,
       form: this.$form.createForm(this, { name: 'resetPassword' }),
+      formUpdateUser: this.$form.createForm(this, { name: 'updateUser' }),
     };
   },
   computed: {
@@ -222,6 +242,23 @@ export default {
           }).catch((err_) => {
             this.$notification.open({
               message: 'Reset password error',
+              description: err_.response.data.detail,
+            });
+          });
+        }
+      });
+    },
+    submitUpdateName(e) {
+      e.preventDefault();
+      this.formUpdateUser.validateFields((err, values) => {
+        if (!err) {
+          this.$axios.put('/user/', {
+            name: values.name,
+          }).then(() => {
+            window.location.reload();
+          }).catch((err_) => {
+            this.$notification.open({
+              message: 'Update error',
               description: err_.response.data.detail,
             });
           });
