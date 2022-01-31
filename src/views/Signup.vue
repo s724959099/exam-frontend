@@ -62,10 +62,10 @@
     </a-form>
     <div>Or</div>
     <div>
-      <a href="/login">Google</a>
+      <a :href="GOOGLE_LOGIN">Google</a>
     </div>
     <div>
-      <a href="/login">Facebook</a>
+      <a :href="FACEBOOK_LOGIN">Facebook</a>
     </div>
   </div>
 </template>
@@ -78,7 +78,12 @@ function hasErrors(fieldsError) {
 export default {
   name: 'Signup',
   data() {
+    const BASE_API = process.env.VUE_APP_API_URL;
+    const FACEBOOK_LOGIN = `${BASE_API}auth/login/facebook/`;
+    const GOOGLE_LOGIN = `${BASE_API}auth/login/google/`;
     return {
+      FACEBOOK_LOGIN,
+      GOOGLE_LOGIN,
       hasErrors,
       form: this.$form.createForm(this, { name: 'signup' }),
     };

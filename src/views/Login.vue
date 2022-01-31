@@ -26,6 +26,13 @@
           Login
         </a-button>
       </a-form-item>
+      <div>Or</div>
+      <div>
+        <a :href="GOOGLE_LOGIN">Google</a>
+      </div>
+      <div>
+        <a :href="FACEBOOK_LOGIN">Facebook</a>
+      </div>
     </a-form>
   </div>
 </template>
@@ -35,7 +42,12 @@
 export default {
   name: 'Login',
   data() {
+    const BASE_API = process.env.VUE_APP_API_URL;
+    const FACEBOOK_LOGIN = `${BASE_API}auth/login/facebook/`;
+    const GOOGLE_LOGIN = `${BASE_API}auth/login/google/`;
     return {
+      FACEBOOK_LOGIN,
+      GOOGLE_LOGIN,
       form: this.$form.createForm(this, { name: 'login' }),
     };
   },

@@ -72,7 +72,7 @@
       Sign up count: {{ statistics.sign_up_count }}
     </div>
     <div>
-      Tody active count: {{ statistics.today_active_count }}
+      Today active count: {{ statistics.today_active_count }}
     </div>
     <div>
       Last 7 days average: {{ statistics.last_7days_active_avg }}
