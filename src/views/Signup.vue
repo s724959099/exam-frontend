@@ -141,7 +141,10 @@ export default {
             password: values.password,
             name: values.userName,
           }).then((res) => {
-            console.log(res.data);
+            this.$notification.open({
+              message: 'Sign Up Info',
+              description: res.data.msg,
+            });
           }).catch((err_) => {
             const msgs = [];
             // eslint-disable-next-line no-restricted-syntax
