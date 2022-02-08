@@ -262,9 +262,6 @@ export default {
         if (!err) {
           this.$axios.put('/user/', {
             name: values.name,
-          }, {
-            xsrfCookieName: 'csrf_access_token',
-            xsrfHeaderName: 'X-CSRF-Token',
           }).then(() => {
             window.location.reload();
           }).catch((err_) => {

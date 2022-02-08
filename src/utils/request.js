@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 const baseURL = process.env.VUE_APP_API_URL;
+axios.defaults.xsrfCookieName = 'csrf_access_token';
+axios.defaults.xsrfHeaderName = 'X-CSRF-Token';
+axios.defaults.withCredentials = true;
 const service = axios.create({
   baseURL,
   timeout: 60000,
   withCredentials: true,
-  xsrfHeaderName: 'X-CSRF-Token',
-  xsrfCookieName: 'csrf_access_token',
 });
 service.all = axios.all;
 const refreshToken = () => service.post('/auth/refresh/').catch(() => service.delete('/auth/logout/'));
