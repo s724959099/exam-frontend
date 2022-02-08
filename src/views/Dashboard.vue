@@ -8,10 +8,10 @@
       Email: {{ user.email }}
     </div>
     <div>
-      Signup time: {{ user.created_at.replace('T',' ').split('.')[0] }}
+      Signup time: {{ user.created_at.replace('T', ' ').split('.')[0] }}
     </div>
     <div>
-      Last login: {{ user.last_login_time.replace('T',' ').split('.')[0] }}
+      Last login: {{ user.last_login_time.replace('T', ' ').split('.')[0] }}
     </div>
     <a-divider/>
     <a-form :form="formUpdateUser" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
@@ -110,10 +110,10 @@
         <a-badge :status="text?'success':'error'"/>
       </div>
       <div slot="created_at" slot-scope="text">
-        {{text.replace('T',' ').split('.')[0]}}
+        {{ text.replace('T', ' ').split('.')[0] }}
       </div>
       <div slot="last_login_time" slot-scope="text">
-        {{text.replace('T',' ').split('.')[0]}}
+        {{ text.replace('T', ' ').split('.')[0] }}
       </div>
     </a-table>
   </div>
@@ -262,6 +262,9 @@ export default {
         if (!err) {
           this.$axios.put('/user/', {
             name: values.name,
+          }, {
+            xsrfCookieName: 'csrf_access_token',
+            xsrfHeaderName: 'X-CSRF-Token',
           }).then(() => {
             window.location.reload();
           }).catch((err_) => {
