@@ -8,10 +8,11 @@
       Email: {{ user.email }}
     </div>
     <div>
-      Signup time: {{ user.created_at.replace('T', ' ').split('.')[0] }}
+      Signup time: {{ user.created_at ? user.created_at.replace('T', ' ').split('.')[0] : '' }}
     </div>
     <div>
-      Last login: {{ user.last_login_time.replace('T', ' ').split('.')[0] }}
+      Last login:
+      {{ user.last_login_time ? user.last_login_time.replace('T', ' ').split('.')[0] : '' }}
     </div>
     <a-divider/>
     <a-form :form="formUpdateUser" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
