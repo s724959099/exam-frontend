@@ -8,10 +8,10 @@
       Email: {{ user.email }}
     </div>
     <div>
-      Signup time: {{ user.created_at }}
+      Signup time: {{ user.created_at.replace('T',' ').split('.')[0] }}
     </div>
     <div>
-      Last login: {{ user.last_login_time }}
+      Last login: {{ user.last_login_time.replace('T',' ').split('.')[0] }}
     </div>
     <a-divider/>
     <a-form :form="formUpdateUser" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }"
@@ -109,6 +109,12 @@
       <div slot="verify" slot-scope="text">
         <a-badge :status="text?'success':'error'"/>
       </div>
+      <div slot="created_at" slot-scope="text">
+        {{text.replace('T',' ').split('.')[0]}}
+      </div>
+      <div slot="last_login_time" slot-scope="text">
+        {{text.replace('T',' ').split('.')[0]}}
+      </div>
     </a-table>
   </div>
 </template>
@@ -140,10 +146,12 @@ const columns = [
   {
     title: 'Last login time',
     dataIndex: 'last_login_time',
+    scopedSlots: { customRender: 'last_login_time' },
   },
   {
     title: 'Sign up time',
     dataIndex: 'created_at',
+    scopedSlots: { customRender: 'created_at' },
   },
 ];
 export default {
@@ -153,7 +161,7 @@ export default {
       columns,
       items: [],
       params: {
-        limit: 3,
+        limit: 5,
         offset: 0,
       },
       user: {},
